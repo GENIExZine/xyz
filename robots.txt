@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /admin.html
+Disallow: /backup_original_live_site/
+
+Sitemap: https://bhagwaticaterers.com/sitemap.xml

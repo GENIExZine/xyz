@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Staff &amp; Owner Portal — Shree Bhagwati Caterers</title>
+  <meta name="robots" content="noindex, nofollow" />
+
+  <!-- Preconnect & Stylesheets -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="assets/css/royal-theme.css" />
+  <link rel="stylesheet" href="assets/css/components.css" />
+  <link rel="stylesheet" href="assets/css/responsive.css" />
+  <style>
+    .admin-layout {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      min-height: 80vh;
+      background: var(--ivory-base);
+    }
+    .admin-sidebar {
+      background: var(--royal-maroon-dark);
+      padding: 30px 20px;
+      color: #FFF;
+      border-right: 1px solid var(--gold-border);
+    }
+    .admin-nav-item {
+      display: block;
+      width: 100%;
+      padding: 12px 16px;
+      margin-bottom: 8px;
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--text-on-dark-muted);
+      border-radius: var(--radius-sm);
+      text-align: left;
+      font-size: 0.92rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+    .admin-nav-item:hover, .admin-nav-item.active {
+      background: rgba(212, 175, 55, 0.15);
+      color: var(--gold-champagne);
+      border-color: var(--gold-border);
+    }
+    .admin-body {
+      padding: 40px;
+      overflow-y: auto;
+    }
+    @media (max-width: 768px) {
+      .admin-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Simple Bar -->
+  <header style="background: var(--royal-maroon-deep); padding: 14px 24px; border-bottom: 1px solid var(--gold-border); display: flex; justify-content: space-between; align-items: center; color: #FFF;">
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <span style="font-size: 1.2rem; color: var(--gold-primary);">👑</span>
+      <strong>Bhagwati Caterers — Management Portal</strong>
+    </div>
+    <a href="index.html" class="btn btn-outline-gold btn-sm">&larr; Return to Public Website</a>
+  </header>
+
+  <div class="admin-layout" id="adminApp">
+    <!-- Sidebar -->
+    <aside class="admin-sidebar">
+      <div style="margin-bottom: 24px;">
+        <span class="royal-badge light" style="font-size: 0.72rem;">Admin Mode</span>
+      </div>
+      <button type="button" class="admin-nav-item active" data-target="adminSectionInquiries">
+        📋 Client Inquiries Log
+      </button>
+      <button type="button" class="admin-nav-item" data-target="adminSectionContacts">
+        📞 Contact &amp; Business Info
+      </button>
+      <button type="button" class="admin-nav-item" data-target="adminSectionMenu">
+        🍽️ Menu Editor
+      </button>
+      <button type="button" class="admin-nav-item" data-target="adminSectionGallery">
+        🖼️ Event Gallery Manager
+      </button>
+      <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1);">
+        <button type="button" class="btn btn-gold btn-sm" style="width: 100%;" onclick="window.AdminCMS.exportData()">
+          📥 Export Updated Config
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="admin-body">
+
+      <!-- 1. Client Inquiries Log -->
+      <section class="admin-section" id="adminSectionInquiries">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+          <div>
+            <h2>Recent Client Inquiries</h2>
+            <p>Quotes and leads submitted by visitors on bhagwaticaterers.com.</p>
+          </div>
+          <button type="button" class="btn btn-outline-gold btn-sm" onclick="localStorage.removeItem('bhagwati_inquiries'); location.reload();">
+            Clear Local Log
+          </button>
+        </div>
+        <div id="adminInquiriesLog"></div>
+      </section>
+
+      <!-- 2. Contacts Editor -->
+      <section class="admin-section" id="adminSectionContacts" style="display: none;">
+        <h2>Contact Details &amp; Location</h2>
+        <p style="margin-bottom: 24px;">Update verified phone numbers, emails, and address for all pages.</p>
+        <div style="max-width: 600px; background: #FFF; padding: 24px; border: 1px solid var(--sand-muted); border-radius: var(--radius-md);">
+          <div class="form-group">
+            <label for="adminPhone1">Primary Phone / WhatsApp</label>
+            <input type="text" id="adminPhone1" class="form-control" />
+          </div>
+          <div class="form-group">
+            <label for="adminPhone2">Secondary Phone</label>
+            <input type="text" id="adminPhone2" class="form-control" />
+          </div>
+          <div class="form-group">
+            <label for="adminEmail1">Primary Sales Email</label>
+            <input type="email" id="adminEmail1" class="form-control" />
+          </div>
+          <div class="form-group">
+            <label for="adminAddress">Physical Address</label>
+            <textarea id="adminAddress" class="form-control" rows="2"></textarea>
+          </div>
+          <button type="button" class="btn btn-gold" onclick="alert('Contact settings saved to browser session! Remember to export config.')">
+            Save Changes
+          </button>
+        </div>
+      </section>
+
+      <!-- 3. Menu Editor -->
+      <section class="admin-section" id="adminSectionMenu" style="display: none;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+          <div>
+            <h2>Culinary Menu Items</h2>
+            <p>Manage delicacies, descriptions, and dietary tags.</p>
+          </div>
+          <button type="button" class="btn btn-gold btn-sm" onclick="alert('Add New Item Modal: Use export tool to sync new items.')">
+            + Add New Delicacy
+          </button>
+        </div>
+        <div id="adminMenuList"></div>
+      </section>
+
+      <!-- 4. Gallery Editor -->
+      <section class="admin-section" id="adminSectionGallery" style="display: none;">
+        <h2>Event Gallery Photos</h2>
+        <p style="margin-bottom: 20px;">Manage photos, captions, and categories.</p>
+        <div id="adminGalleryList"></div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Scripts -->
+  <script src="assets/js/config.js"></script>
+  <script src="assets/data/site-content.js"></script>
+  <script src="assets/data/menu-data.js"></script>
+  <script src="assets/data/gallery-data.js"></script>
+  <script src="assets/js/admin.js"></script>
+</body>
+</html>
